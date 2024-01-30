@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import image_create
+from .views import image_create,image_detail
 
 urlpatterns = [
     path('create/',image_create, name = 'image_create'),
+    path('image_detail/<slug:slug>/<int:pk>/',image_detail, name = 'image_detail'),
 
 
 ]

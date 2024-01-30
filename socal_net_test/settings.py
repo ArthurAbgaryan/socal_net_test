@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'account_test',
     'image_socal',
+    'sorl.thumbnail',
 
 
     'django.contrib.admin',

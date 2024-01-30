@@ -1,0 +1,15 @@
+{% extends 'account_test/base.html' %}
+{% load thumbnail %}
+{% block content %}
+<h1>{{image.title}}</h1>
+<div>
+    {{image.description}}
+</div>
+{% thumbnail image.image '300' as im %}
+<a href="{{image.image.url}}">
+
+    <img src="{{im.url}}" class="image-detail">
+
+</a>
+{% endthumbnail %}
+{% endblock %}

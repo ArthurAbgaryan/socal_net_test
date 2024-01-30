@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-
-
+from django.urls import reverse
 #Модель для сохранения изображения
 class Image(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'user_image')
@@ -16,6 +15,8 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+    def get_absolute_url(self):
+        return reverse ('image_detail', kwargs = {'slug':self.slug, 'pk':self.pk})
 #автоматичуское заполнение поля slug по полю title
     def save(self,*args, **kwargs):
         self.slug = slugify(self.title)
