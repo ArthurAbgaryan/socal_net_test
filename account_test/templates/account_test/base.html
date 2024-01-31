@@ -11,7 +11,41 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<ul>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+       $(document).ready(function(event){
+
+         // $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+
+
+         // LIKE POSTS
+
+         $(document).on('click','#like',function(event){
+          event.preventDefault();
+          var pk = $(this).attr('value');
+          $.ajax({
+            type: 'POST',
+            url: '{% url "like" %}',
+            data: {'id':pk, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+            dataType: 'json',
+            success: function(response){
+                $('#like-section').html(response['form']);
+                console.log($('#like-section').html(response['form']));
+            },
+            error: function(rs, e){
+                console.log(rs.responseText);
+            },
+          });
+        })
+
+        </script>
+
+    <ul>
     {% if user.is_authenticated %}
 
         <li><a href="{% url 'logout' %}">Logout</a></li>

@@ -4,6 +4,10 @@ from .forms import ImageForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from .models import Image
+from django.template.loader import render_to_string
+from django.http import HttpResponseRedirect, JsonResponse
+
+
 
 @login_required
 def image_create(request):
@@ -22,10 +26,35 @@ def image_create(request):
 
     return render(request,'image_socal/image_create_form.html',{'form':form})
 
+@login_required
+def like_ajax(request):
+    object = get_object_or_404(Image,id = request.POST.get('id'))
+    context = {}
+    liked = False
+    if object.users_likes.filter(id = request.user):
+        object.users_likes.remove(request.user)
+        liked = False
+    else:
+        object.users_likes.add(request.user)
+        liked = True
+
+    context['liked'] = liked
+    context['object'] = object
+    if request.is_ajax():
+        html = render_to_string('image_socal/like_form_ajax.html',context,request = request)
+    return JsonResponse({'form':html})
 
 def image_detail(request,slug, pk):
+    context = {}
     image = get_object_or_404(Image, slug = slug,id = pk )
 
-    return render(request, 'image_socal/image_detail.html',{'image':image})
+    liked = False
+    if image.users_likes.filter(id = request.user.id).exists():
+        liked = True
+
+    context['image'] = image
+    context['liked'] = liked
+
+    return render(request, 'image_socal/image_detail.html',context)
 
 
