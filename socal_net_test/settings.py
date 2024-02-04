@@ -26,14 +26,14 @@ SECRET_KEY = 'django-insecure-^b7ob8xfcb9%0@s0fof)w5x3=i+$wyd@*p)rtyvk5ixl$40guh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'account_test',
-    'image_socal',
+    'account_test.apps.AccountTestConfig',
+    'image_socal.apps.ImageSocalConfig',
     'sorl.thumbnail',
 
 
@@ -60,7 +60,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.middlewares.AjaxMiddleware',
 ]
 
 ROOT_URLCONF = 'socal_net_test.urls'
@@ -177,4 +176,4 @@ LOGOUT_URL = 'logout'
 
 
 
-
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"

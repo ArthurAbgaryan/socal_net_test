@@ -1,6 +1,8 @@
 {% extends 'account_test/base.html' %}
 {% load thumbnail %}
 {% block content %}
+
+
 <h1>{{image.title}}</h1>
 <div>
     {{image.description}}
@@ -9,12 +11,51 @@
 <a href="{{image.image.url}}">
 
     <img src="{{im.url}}" class="image-detail">
+</a>
+{% endthumbnail %}
 
+{% with total_like=image.users_likes.count users_like=image.users_likes.all  %}
+<div class="image-info">
+    <div>
+        <span class="count">
+            <span class="total">{{total_like}}
+            </span>
+        </span>
+                    <a href="#" data-id="{{image.id}}"
+                    data-action="{% if request.user in users_like %}un{% endif %}like"
+                    class="like">
+                    {% if request.user in users_like %}
+                        Unlike
+                    {% else %}
+                    like
+                    {% endif %}
 </a>
 
-{% endthumbnail %}
-<div id="like-section">
-
-    {% include 'image_socal/like_form_ajax.html' %}
-</div>
+        {% endwith %}
 {% endblock %}
+    </div>
+</div>
+{% block dom %}
+
+$('a.like').click(function(e){
+ e.preventDefault();
+ $.post(
+   '{% url "like" %}',
+   {id: $(this).data('id'),action: $(this).data('action')},
+   function(data){
+     if (data['status'] == 'ok'){
+       var previous_action = $('a.like').data('action');
+       //Изменяем переменную действия
+       $('a.like').data('action' , previous_action == 'like'  ?'unlike' : 'like');
+       //Изменяем текст ссылки
+       $('a.like').text(previous_action == 'like' ? 'Unlike' : 'like');
+       //Обновляем обшее кол-во лайков
+       var previous_likes = parseInt($('span.count .total').text());
+       $('span.count .total').text(
+         previous_action == 'like' ? previous_likes + 1 : previous_likes - 1
+       );
+     }
+   });
+ });
+{% endblock %}
+
