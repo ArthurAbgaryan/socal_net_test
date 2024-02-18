@@ -1,6 +1,9 @@
 from django.urls import path, include
 from .views import main,register, edit_profile
-from django.contrib.auth.views import LoginView,PasswordResetCompleteView,PasswordResetConfirmView,PasswordResetDoneView,LogoutView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView
+from django.contrib.auth.views import LoginView,PasswordResetCompleteView,\
+    PasswordResetConfirmView,PasswordResetDoneView,LogoutView,PasswordChangeView,\
+    PasswordChangeDoneView,PasswordResetView
+from .views import users_list, user_detail, ajax_following
 
 urlpatterns = [
     path('account_test/',main, name = 'main'),
@@ -14,5 +17,8 @@ urlpatterns = [
     path('reset_confim_done/',PasswordResetCompleteView.as_view(),name = 'password_reset_complete'),
     path('register_profile/',register, name = 'register'),
     path('edit_profile/',edit_profile, name = 'edit_profile'),
+    path('user/follow/',ajax_following, name = 'user_follower' ),
+    path('users_list/',users_list, name = 'users_list'),
+    path('users_detail/<username>/',user_detail, name = 'user_detail'),
 
 ]

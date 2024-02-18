@@ -1,0 +1,22 @@
+{% load thumbnail %}
+
+{% for obj in object %}
+<a href="{{ obj.get_absolute_url }}">{{obj.title}}</a>
+<div>
+    {{obj.description}}
+</div>
+{% thumbnail obj.image '150' as im %}
+<a href="{{obj.image.url}}">
+
+    <img src="{{im.url}}" class="image-detail">
+</a>
+{% endthumbnail %}
+{% endfor %}
+
+{% if object.has_previous %}
+<a href="?page=1"><1></a>
+<a href="?page={{object.previous_page_number}}">предыдушая</a>
+{% endif %}
+{% if object.has_next %}
+<a href="?page={{object.next_page_number}}">next</a>
+{% endif %}

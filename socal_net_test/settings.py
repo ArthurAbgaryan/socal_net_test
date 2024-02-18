@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'account_test.apps.AccountTestConfig',
     'image_socal.apps.ImageSocalConfig',
+    'actions.apps.ActionsConfig',
     'sorl.thumbnail',
 
 

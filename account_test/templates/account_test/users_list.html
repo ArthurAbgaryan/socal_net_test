@@ -1,0 +1,20 @@
+{% extends 'account_test/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+<h1>List of Users</h1>
+{% for list in list_users %}
+<div>
+    <h2>{{list.username}}</h2>
+
+{% thumbnail list.profile.photo '200' as im %}
+<a href="#">
+
+    <img src="#" class="image-detail">
+</a>
+{% endthumbnail %}
+    <a href="{% url 'user_detail' list.username %}">Профиль </a>
+</div>
+{% endfor %}
+{% endblock %}
