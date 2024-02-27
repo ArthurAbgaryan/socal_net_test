@@ -12,7 +12,7 @@ class Action(models.Model):
                                   null=True,
                                   related_name='target_obj')
     target_id = models.PositiveIntegerField(blank=True, null=True, db_index=True)
-    target = GenericForeignKey('target_ct','target_id')
+    target = GenericForeignKey('target_ct','target_id')#поле поз-ет обращ.-ся к конкретным поля связанной модели
 
 
     class Meta:

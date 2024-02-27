@@ -17,13 +17,11 @@ def list_image(request):
     list = Image.objects.all()
     paginator = Paginator(list,8)
     number_page = request.GET.get('page')
-    actions = Action.objects.exclude(user = request.user)#об-кты активности кроме активностей пол-ля
-    folow_obj = request.user.following.values_list('id', flat = True)#список подписок поль-ля
-    if folow_obj:#если они есть
-        actions = actions.filter(user_id__in = folow_obj)[:10]#получаем полсед. 10 активностей пол-ей
-        actions = actions.select_related('user','user__profile')#пол-ем обекты ForeignKey через метод select_related
-                                        #user__profile позвол. связаться с профилем польхователя
-        actions = actions.prefetch_related('target')
+    actions = Action.objects.exclud(user = request.user)
+    following_user = request.user.following.values_list('id', flat=False)
+    if following_user:
+        actions = actions.filter(user_id__in = following_user)
+    actions = actions.select_related('user','user__profile').prefetch_related('object')[:10]
     try:
         object = paginator.page(number_page)
     except PageNotAnInteger:
